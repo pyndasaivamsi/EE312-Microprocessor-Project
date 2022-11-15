@@ -1,0 +1,12 @@
+module data_Memory (Enable, ReadWrite, Address, DataIn, DataOut);
+input Enable, ReadWrite;
+input [7: 0] DataIn;
+input [3: 0] Address;
+output reg [7: 0] DataOut;
+reg [7: 0] instruction_Mem [0:15]; // 256 x 8 memory
+  always @ (Enable,ReadWrite,Address,DataIn)
+ if (Enable)
+ if (ReadWrite) DataOut = instruction_Mem [Address]; // Read
+ else instruction_Mem [Address] = DataIn; // Write
+ else DataOut = 8'bz; // High impedance state
+endmodule

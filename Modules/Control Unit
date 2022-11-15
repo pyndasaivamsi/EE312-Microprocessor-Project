@@ -1,0 +1,104 @@
+module controlunit(input rst,clk,
+input[7:0] instruction,output inst_enable,inst_RW,output[7:0] inst_address,
+//ALU_datain=dataFromMemory and AluResult multiplexed
+input[7:0] ALU_datain,output data_enable,data_RW,output[3:0]data_address,
+//operand1_dataout=represents multiplexed signal
+output [3:0]opcode,output reg [7:0] operand1_dataout,operand2);
+
+reg [3:0]state;
+reg [3:0]next_state;
+reg [7:0]instr_reg;
+reg [7:0]next_instr_reg;
+  reg [7:0] regA,regB,regC,regD;
+reg [7:0]program_counter;
+
+parameter s0=4'd0,sfetch=4'd1,sdecode=4'd2,salu=4'd3,sld=4'd4,sst=4'd5,shlt=4'd6,halting_instr=8'd255;
+
+always @(posedge clk)//incrementing Program Counter
+begin
+if(~rst) program_counter<=8'd0;
+else program_counter<=(state==sfetch)?(program_counter+8'd1):program_counter;
+end
+
+
+
+always @(posedge clk)//state changing logic
+begin
+if(~rst) state<=s0;
+else state<=next_state;
+end
+
+always @(posedge clk)//changing instruction register to new value
+begin
+instr_reg<=next_instr_reg;
+end
+
+always @(posedge clk)//registers value assignment
+begin
+regA<=(((state==salu)&(~(|instr_reg[3:2])))|(state==sld))?ALU_datain:regA;
+  regB<=((state==salu)&((~instr_reg[3])&instr_reg[2]))?ALU_datain:regB;
+  regC<=((state==salu)&(instr_reg[3]&(~instr_reg[2])))?ALU_datain:regC;
+  regD<=((state==salu)&((&instr_reg[3:2])))?ALU_datain:regD;
+end
+
+
+always @*//next state value
+begin 
+case(state)
+s0:next_state=sfetch;//rst?sfetch:s0;
+sfetch:next_state=sdecode;
+sdecode:next_state=((|instr_reg[7:5]))?salu:(instr_reg[4]?sst:sld);
+// Checking for last instruction => 8'b11111111
+salu:next_state=(&instr_reg)?shlt:sfetch;
+sst:next_state=(&instr_reg)?shlt:sfetch;
+sld:next_state=(&instr_reg)?shlt:sfetch;
+shlt:next_state=shlt;
+default:next_state=s0;
+endcase
+end
+
+always @*//Instruction Register value i.e. to load new instruction or not
+begin
+case(state)
+// Undefined state anyways, next_instr_reg doesn't matter
+s0:next_instr_reg=8'd0;
+sfetch:next_instr_reg=instruction;
+default:next_instr_reg=instr_reg;
+endcase
+end
+
+always @*//operand2 value 
+begin
+case((&instr_reg[7:6])|(instr_reg[7]&instr_reg[4])|((~(instr_reg[7]|instr_reg[6]|instr_reg[4]))&instr_reg[5]))
+1'b1:operand2={{7{instr_reg[1]}},instr_reg[0]};
+1'b0:
+begin
+case(instr_reg[1:0])
+2'b00:operand2=regA;
+2'b01:operand2=regB;
+2'b10:operand2=regC;
+2'b11:operand2=regD;
+endcase
+end
+endcase
+end
+
+always @*//operand1_dataout value
+begin
+operand1_dataout=regA;
+end
+
+
+
+  assign inst_enable=(state==sfetch)?1'b1:1'b0,//instruction memory signals
+inst_RW=1'b1, 
+inst_address=program_counter;
+
+
+  assign data_enable=((state==sld)|(state==sst))?1'b1:1'b0,//data memory signals
+data_RW=(state==sst)?1'b0:1'b1,
+data_address=instr_reg[3:0];
+
+assign opcode=instr_reg[7:4];//giving opcode out for ALU operations
+
+endmodule

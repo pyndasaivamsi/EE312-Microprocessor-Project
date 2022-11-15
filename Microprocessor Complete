@@ -156,11 +156,11 @@ begin
 case(state)
 s0:next_state=sfetch;//rst?sfetch:s0;
 sfetch:next_state=sdecode;
-sdecode:next_state=((|instr_reg[7:5]))?salu:(instr_reg[4]?sst:sld);
+sdecode:next_state=(&instr_reg)?shlt:(((|instr_reg[7:5]))?salu:(instr_reg[4]?sst:sld));
 // Checking for last instruction => 8'b11111111
-salu:next_state=(&instr_reg)?shlt:sfetch;
-sst:next_state=(&instr_reg)?shlt:sfetch;
-sld:next_state=(&instr_reg)?shlt:sfetch;
+salu:next_state=sfetch;
+sst:next_state=sfetch;
+sld:next_state=sfetch;
 shlt:next_state=shlt;
 default:next_state=s0;
 endcase

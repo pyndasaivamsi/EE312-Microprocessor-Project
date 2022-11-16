@@ -69,11 +69,7 @@ opcode,operand1_dataToDataMemMPU,operand2);
 
 endmodule
 
-module data_Memory (Enable, ReadWrite, Address, DataIn, DataOut);
-input Enable, ReadWrite;
-input [7: 0] DataIn;
-input [3: 0] Address;
-output reg [7: 0] DataOut;
+module data_Memory (input Enable, input ReadWrite, input [3:0] Address, input [7:0] DataIn, output reg [7:0] DataOut);
 reg [7: 0] instruction_Mem [0:15]; // 256 x 8 memory
   always @ (Enable,ReadWrite,Address,DataIn)
  if (Enable)
@@ -174,11 +170,7 @@ dataToDataMem=rst?dataToDataMemMPU:dataToDataMemExt;
 endmodule
 
 
-module instruction_Memory (Enable, ReadWrite, Address, DataIn, DataOut);
-input Enable, ReadWrite;
-input [7: 0] DataIn;
-input [7: 0] Address;
-output reg [7: 0] DataOut;
+module instruction_Memory (input Enable, input ReadWrite, input [3:0] Address, input [7:0] DataIn, output reg [7:0] DataOut);
 reg [7: 0] instruction_Mem [0:255]; // 256 x 8 memory
 always @ (Enable,ReadWrite,Address,DataIn)
  if (Enable)

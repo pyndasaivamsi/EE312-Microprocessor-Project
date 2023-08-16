@@ -30,7 +30,7 @@ wire MPUenableDataMem,dataMem_RWMPU;
 wire [3:0]dataMem_addressMPU;
 
 
-//inputs of data Memory,En,RW,ADRESS,Datain
+//inputs of data Memory,En,RW,ADDRESS,Datain
 wire dataMem_enable,dataMem_RW;
 wire [3:0]dataMem_address;
 wire [7:0]dataToDataMem;

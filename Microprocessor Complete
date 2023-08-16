@@ -4,7 +4,7 @@ module MPUwithMemoryUnit(input rst,clk,
 input instrMem_enableExt,input instrMemRWExt,input[7:0]instrMem_addressExt,input[7:0]dataToInstrMemExt,output [7:0]instrMemDataOut,
 input dataMem_enableExt,input dataMemRWExt,input[3:0]dataMem_addressExt,input[7:0]dataToDataMemExt,output [7:0]dataMemDataOut
 );
-//Inputs to Instruction Memory, En,RW,ADRESS,Datain
+//Inputs to Instruction Memory, En,RW,ADDRESS,Datain
 wire instrMem_enable,instrMem_RW;
 wire [7:0] instrMem_address,dataIntoInstrMem; 
 

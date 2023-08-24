@@ -1,4 +1,4 @@
-# EE312-Microprocessor Project
+# EE312-Microprocessor-Project
 
 This is an 8-bit microprocessor that is designed to implement a set of 16 instructions as per the project specifications.</br>
 

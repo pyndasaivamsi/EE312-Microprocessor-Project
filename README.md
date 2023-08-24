@@ -31,6 +31,12 @@ The whole microprocessor design is divided into 5 parts:
 <li>Because the provided input is of either 2 bits or 4 bits but we need an 8-bit input based on the register size. So, we used a 6-bit sign extension in the case of 2-bit input and a 4-bit sign extension in the case of 4-bit input.</li>
 <li>Eg: 01 input is taken as 00000001 and 1001 input is taken as 11111001.</li>
 </ul>
-</br>
+
+## Microprocessor Architecture
 
 
+## State Diagram
+This is a state diagram that shows the process of obtaining output based on the given input.
+
+
+This is about the 8-bit microprocessor which was designed from scratch using Verilog focusing on architecture. Proper testing and debugging were done by using the provided set of input instructions.

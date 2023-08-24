@@ -34,6 +34,7 @@ The whole microprocessor design is divided into 5 parts:
 
 ## Microprocessor Architecture
 ![architecture microprocessor](https://github.com/shashankAdepu/EE312-Microprocessor-Project/assets/84031342/815bf6cc-da8a-4ea7-ad9b-b11250015779)
+<h3>INS = Instruction</h3>
 
 
 ## State Diagram

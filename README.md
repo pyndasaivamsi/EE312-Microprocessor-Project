@@ -33,10 +33,12 @@ The whole microprocessor design is divided into 5 parts:
 </ul>
 
 ## Microprocessor Architecture
+![architecture microprocessor](https://github.com/shashankAdepu/EE312-Microprocessor-Project/assets/84031342/815bf6cc-da8a-4ea7-ad9b-b11250015779)
+
 
 
 ## State Diagram
 This is a state diagram that shows the process of obtaining output based on the given input.
-
+![State diagram](https://github.com/Amit-Thomas/EE312-Microprocessor-Project/blob/main/state%20diagram.png)
 
 This is about the 8-bit microprocessor which was designed from scratch using Verilog focusing on architecture. Proper testing and debugging were done by using the provided set of input instructions.
